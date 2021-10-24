@@ -4,16 +4,17 @@
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="window">
     <property name="can-focus">False</property>
-    <property name="default-width">600</property>
-    <property name="default-height">600</property>
+    <property name="title" translatable="yes">Demand Paging Algo</property>
+    <property name="default-width">550</property>
+    <property name="default-height">550</property>
     <child>
       <object class="GtkFixed" id="fixed_container">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>
           <object class="GtkStack" id="stack">
-            <property name="width-request">500</property>
-            <property name="height-request">500</property>
+            <property name="width-request">550</property>
+            <property name="height-request">400</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="transition-duration">0</property>
@@ -35,7 +36,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="entry_title">
+                  <object class="GtkLabel" id="fifo_entry_label">
                     <property name="width-request">60</property>
                     <property name="height-request">60</property>
                     <property name="visible">True</property>
@@ -43,29 +44,35 @@
                     <property name="label" translatable="yes">Job Process</property>
                   </object>
                   <packing>
-                    <property name="x">87</property>
+                    <property name="x">63</property>
                     <property name="y">40</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkEntry" id="fifo_entry">
+                    <property name="width-request">120</property>
+                    <property name="height-request">30</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="max-width-chars">30</property>
                     <property name="progress-pulse-step">0</property>
-                    <signal name="activate" handler="fifo_entry_activate" swapped="no"/>
+                    <property name="primary-icon-tooltip-text" translatable="yes">I</property>
+                    <property name="input-purpose">digits</property>
+                    <signal name="activate" handler="fifo_job_entry_activate" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="x">44</property>
-                    <property name="y">82</property>
+                    <property name="x">10</property>
+                    <property name="y">289</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="job_1">
-                    <property name="width-request">80</property>
+                  <object class="GtkLabel" id="fifo_job_1">
+                    <property name="width-request">120</property>
                     <property name="height-request">30</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">1</property>
+                    <property name="justify">center</property>
                   </object>
                   <packing>
                     <property name="x">44</property>
@@ -73,11 +80,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="job_2">
-                    <property name="width-request">80</property>
+                  <object class="GtkLabel" id="fifo_job_2">
+                    <property name="width-request">120</property>
                     <property name="height-request">30</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">2</property>
+                    <property name="justify">center</property>
                   </object>
                   <packing>
                     <property name="x">44</property>
@@ -85,11 +94,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="job_3">
-                    <property name="width-request">80</property>
+                  <object class="GtkLabel" id="fifo_job_3">
+                    <property name="width-request">120</property>
                     <property name="height-request">30</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">3</property>
+                    <property name="justify">center</property>
                   </object>
                   <packing>
                     <property name="x">44</property>
@@ -97,15 +108,301 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="job_4">
-                    <property name="width-request">80</property>
+                  <object class="GtkLabel" id="fifo_job_4">
+                    <property name="width-request">120</property>
                     <property name="height-request">30</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">4</property>
+                    <property name="justify">center</property>
                   </object>
                   <packing>
                     <property name="x">44</property>
                     <property name="y">222</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fifo_job_5">
+                    <property name="width-request">120</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">5</property>
+                    <property name="justify">center</property>
+                  </object>
+                  <packing>
+                    <property name="x">44</property>
+                    <property name="y">257</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="fifo_mem_lock_entry">
+                    <property name="width-request">168</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="max-width-chars">30</property>
+                    <property name="progress-pulse-step">0</property>
+                    <property name="input-purpose">digits</property>
+                    <signal name="activate" handler="fifo_mem_block_entry_activate" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">188</property>
+                    <property name="y">289</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="mem_block_1">
+                    <property name="width-request">120</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">1</property>
+                    <property name="justify">center</property>
+                  </object>
+                  <packing>
+                    <property name="x">208</property>
+                    <property name="y">117</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="mem_block_2">
+                    <property name="width-request">120</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">2</property>
+                    <property name="justify">center</property>
+                  </object>
+                  <packing>
+                    <property name="x">208</property>
+                    <property name="y">152</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="mem_block_3">
+                    <property name="width-request">120</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">3</property>
+                    <property name="justify">center</property>
+                  </object>
+                  <packing>
+                    <property name="x">208</property>
+                    <property name="y">187</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="mem_block_4">
+                    <property name="width-request">120</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">4</property>
+                    <property name="justify">center</property>
+                  </object>
+                  <packing>
+                    <property name="x">208</property>
+                    <property name="y">222</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="mem_block_5">
+                    <property name="width-request">120</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">5</property>
+                    <property name="justify">center</property>
+                  </object>
+                  <packing>
+                    <property name="x">208</property>
+                    <property name="y">257</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fifo_mem_entry_label">
+                    <property name="width-request">105</property>
+                    <property name="height-request">60</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Mem Block Size</property>
+                  </object>
+                  <packing>
+                    <property name="x">219</property>
+                    <property name="y">40</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="status_label">
+                    <property name="width-request">60</property>
+                    <property name="height-request">60</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Status</property>
+                  </object>
+                  <packing>
+                    <property name="x">360</property>
+                    <property name="y">40</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="status_block_1">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">1</property>
+                  </object>
+                  <packing>
+                    <property name="x">360</property>
+                    <property name="y">117</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="status_block_2">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">2</property>
+                  </object>
+                  <packing>
+                    <property name="x">360</property>
+                    <property name="y">152</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="status_block_3">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">3</property>
+                  </object>
+                  <packing>
+                    <property name="x">360</property>
+                    <property name="y">187</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="status_block_4">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">4</property>
+                  </object>
+                  <packing>
+                    <property name="x">360</property>
+                    <property name="y">222</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="status_block_5">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">5</property>
+                  </object>
+                  <packing>
+                    <property name="x">360</property>
+                    <property name="y">257</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fragmentation_label">
+                    <property name="width-request">60</property>
+                    <property name="height-request">60</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Fragmentation</property>
+                  </object>
+                  <packing>
+                    <property name="x">453</property>
+                    <property name="y">40</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fragmentation_1">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">1</property>
+                  </object>
+                  <packing>
+                    <property name="x">468</property>
+                    <property name="y">117</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fragmentation_2">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">2</property>
+                  </object>
+                  <packing>
+                    <property name="x">468</property>
+                    <property name="y">152</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fragmentation_3">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">3</property>
+                  </object>
+                  <packing>
+                    <property name="x">468</property>
+                    <property name="y">187</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fragmentation_4">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">4</property>
+                  </object>
+                  <packing>
+                    <property name="x">468</property>
+                    <property name="y">222</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="fragmentation_5">
+                    <property name="width-request">60</property>
+                    <property name="height-request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">5</property>
+                  </object>
+                  <packing>
+                    <property name="x">468</property>
+                    <property name="y">257</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="fifo_start">
+                    <property name="label" translatable="yes">START</property>
+                    <property name="width-request">80</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="fifo_start_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">454</property>
+                    <property name="y">289</property>
                   </packing>
                 </child>
               </object>
@@ -132,15 +429,30 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="entry_title_2">
+                  <object class="GtkLabel" id="best_fit_entry_label">
                     <property name="width-request">60</property>
                     <property name="height-request">60</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Job Process</property>
                   </object>
                   <packing>
                     <property name="x">40</property>
                     <property name="y">40</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="best_fit_job_entry">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="max-width-chars">30</property>
+                    <property name="progress-pulse-step">0</property>
+                    <property name="input-purpose">digits</property>
+                    <signal name="activate" handler="best_fit_job_entry_activate" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">82</property>
                   </packing>
                 </child>
               </object>
@@ -154,6 +466,30 @@
           <packing>
             <property name="x">10</property>
             <property name="y">50</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="total_memory">
+            <property name="width-request">93</property>
+            <property name="height-request">20</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Total Memory:</property>
+          </object>
+          <packing>
+            <property name="x">63</property>
+            <property name="y">410</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="total_fragmentation">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Total Fragmentation:</property>
+          </object>
+          <packing>
+            <property name="x">63</property>
+            <property name="y">430</property>
           </packing>
         </child>
       </object>
