@@ -4,7 +4,7 @@ compiled on GCC
 */
 
 #include <gtk/gtk.h>
-#include <stdlib.h>
+#include <stdbool.h>
 #include "DPAS.h"
 
 GtkBuilder *builder;
@@ -13,7 +13,8 @@ GUI fifo_gui, best_fit_gui;
 Container container;
 label fifo_label, best_fit_label;
 
-int job_size[5], mem_size[5], fragmentation[5];
+data fifo, best_fit;
+
 int total_fragmentation, total_memory;
 
 int main(int argc, char *argv[])
@@ -65,21 +66,21 @@ int main(int argc, char *argv[])
     fifo_label.status_label = GTK_WIDGET(gtk_builder_get_object(builder, "status_label"));
     fifo_label.internal_fragment_label = GTK_WIDGET(gtk_builder_get_object(builder, "fragmentation_label"));
 
-    //displays the job size
+    //displays the job size on the FIFO tab
     fifo_label.job_label.job_1 = GTK_WIDGET(gtk_builder_get_object(builder, "fifo_job_1"));
     fifo_label.job_label.job_2 = GTK_WIDGET(gtk_builder_get_object(builder, "fifo_job_2"));
     fifo_label.job_label.job_3 = GTK_WIDGET(gtk_builder_get_object(builder, "fifo_job_3"));
     fifo_label.job_label.job_4 = GTK_WIDGET(gtk_builder_get_object(builder, "fifo_job_4"));
     fifo_label.job_label.job_5 = GTK_WIDGET(gtk_builder_get_object(builder, "fifo_job_5"));
 
-    //displays the memory size
+    //displays the memory size on the FIFO tab
     fifo_label.mem_label.mem_block_1 = GTK_WIDGET(gtk_builder_get_object(builder, "mem_block_1"));
     fifo_label.mem_label.mem_block_2 = GTK_WIDGET(gtk_builder_get_object(builder, "mem_block_2"));
     fifo_label.mem_label.mem_block_3 = GTK_WIDGET(gtk_builder_get_object(builder, "mem_block_3"));
     fifo_label.mem_label.mem_block_4 = GTK_WIDGET(gtk_builder_get_object(builder, "mem_block_4"));
     fifo_label.mem_label.mem_block_5 = GTK_WIDGET(gtk_builder_get_object(builder, "mem_block_5"));
 
-    //displays the memory block status
+    //displays the memory block status on the FIFO tab
     fifo_label.status.block_1 = GTK_WIDGET(gtk_builder_get_object(builder, "status_block_1"));
     fifo_label.status.block_2 = GTK_WIDGET(gtk_builder_get_object(builder, "status_block_2"));
     fifo_label.status.block_3 = GTK_WIDGET(gtk_builder_get_object(builder, "status_block_3"));
@@ -93,8 +94,42 @@ int main(int argc, char *argv[])
     fifo_label.internal_fragment.block_5 = GTK_WIDGET(gtk_builder_get_object(builder, "fragmentation_5"));
 
     best_fit_gui.job_entry = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_job_entry"));
-    best_fit_label.entry_label =  GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_entry_label"));
+    best_fit_gui.mem_entry = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_mem_entry"));
+    best_fit_gui.button =  GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_start"));
 
+    //best fit label object creation
+    best_fit_label.entry_label = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_entry_label"));
+    best_fit_label.mem_entry_label = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_mem_entry_label"));
+    best_fit_label.status_label = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_status_label"));
+    best_fit_label.internal_fragment_label = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_fragmentation_label"));
+
+    //displays the job size on best fit tab
+    best_fit_label.job_label.job_1 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_job_1"));
+    best_fit_label.job_label.job_2 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_job_2"));
+    best_fit_label.job_label.job_3 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_job_3"));
+    best_fit_label.job_label.job_4 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_job_4"));
+    best_fit_label.job_label.job_5 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_job_5"));
+
+    //displays the mem size on best fit tab
+    best_fit_label.mem_label.mem_block_1 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_mem_block_1"));
+    best_fit_label.mem_label.mem_block_2 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_mem_block_2"));
+    best_fit_label.mem_label.mem_block_3 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_mem_block_3"));
+    best_fit_label.mem_label.mem_block_4 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_mem_block_4"));
+    best_fit_label.mem_label.mem_block_5 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_mem_block_5"));
+
+    //displays the status on best fit tab
+    best_fit_label.status.block_1 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_status_1"));
+    best_fit_label.status.block_2 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_status_2"));
+    best_fit_label.status.block_3 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_status_3"));
+    best_fit_label.status.block_4 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_status_4"));
+    best_fit_label.status.block_5 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fit_status_5"));
+
+    //displays the internal fragmentation on best fit tab
+    best_fit_label.internal_fragment.block_1 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fragmentation_1"));
+    best_fit_label.internal_fragment.block_2 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fragmentation_2"));
+    best_fit_label.internal_fragment.block_3 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fragmentation_3"));
+    best_fit_label.internal_fragment.block_4 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fragmentation_4"));
+    best_fit_label.internal_fragment.block_5 = GTK_WIDGET(gtk_builder_get_object(builder, "best_fragmentation_5"));
     //to be able to see the different widgets/objects
     gtk_widget_show_all(container.window);
 
@@ -109,87 +144,90 @@ gets the user input and displays them on their respective holder
 void fifo_job_entry_activate(GtkEntry *job_entry)
 {
     char input[30];
-        
-    if (fifo_label.job_label.counter == 5)
-    {
-        fifo_label.job_label.counter = 0;
-    }
     /*
     retrieves the user input and puts them on input variable
     */
     sprintf(input, "Job%d:%s", fifo_label.job_label.counter+1, gtk_entry_get_text(job_entry));
 
-    job_size[fifo_label.job_label.counter] = atoi(gtk_entry_get_text(job_entry));
-    fifo_label.job_label.counter++;
+    fifo.job_size[fifo_label.job_label.counter] = atoi(gtk_entry_get_text(job_entry));
 
     switch (fifo_label.job_label.counter)
     {
-        case 1:
+        case 0:
             gtk_label_set_text(GTK_LABEL(fifo_label.job_label.job_1), (const gchar*) input);
         break;
         
-        case 2:
+        case 1:
             gtk_label_set_text(GTK_LABEL(fifo_label.job_label.job_2), (const gchar*) input);
         break;
 
-        case 3:
+        case 2:
             gtk_label_set_text(GTK_LABEL(fifo_label.job_label.job_3), (const gchar*) input);
         break;
 
-        case 4:
+        case 3:
             gtk_label_set_text(GTK_LABEL(fifo_label.job_label.job_4), (const gchar*) input);
         break;
 
-        case 5:
+        case 4:
             gtk_label_set_text(GTK_LABEL(fifo_label.job_label.job_5), (const gchar*) input);
         break;
     }
-   gtk_entry_set_text(job_entry,"");
+            
+    if (fifo_label.job_label.counter == 4) 
+    {
+        gtk_widget_set_sensitive(job_entry, FALSE);
+    }
+    fifo_label.job_label.counter++;
+
+    gtk_entry_set_text(job_entry,"");
 }
 
 void fifo_mem_block_entry_activate(GtkEntry *mem_entry)
 {
     char input[30];
-        
-    if (fifo_label.mem_label.counter == 5)
-    {
-        fifo_label.mem_label.counter = 0;
-    }
+    
     /*
     retrieves the user input and puts them on input variable
     */
     sprintf(input, "Job%d:%s", fifo_label.mem_label.counter+1, gtk_entry_get_text(mem_entry));
 
-    mem_size[fifo_label.mem_label.counter] = atoi(gtk_entry_get_text(mem_entry));
-    fifo_label.mem_label.counter++;
+    fifo.mem_block[fifo_label.mem_label.counter] = atoi(gtk_entry_get_text(mem_entry));
+    fifo.is_busy[fifo_label.mem_label.counter] = FALSE;
 
     switch (fifo_label.mem_label.counter)
     {
-        case 1:
+        case 0:
             gtk_label_set_text(GTK_LABEL(fifo_label.mem_label.mem_block_1), (const gchar*) input);
             gtk_label_set_text(GTK_LABEL(fifo_label.status.block_1), (const gchar*) "FREE");
         break;
         
-        case 2:
+        case 1:
             gtk_label_set_text(GTK_LABEL(fifo_label.mem_label.mem_block_2), (const gchar*) input);
             gtk_label_set_text(GTK_LABEL(fifo_label.status.block_2), (const gchar*) "FREE");
         break;
 
-        case 3:
+        case 2:
             gtk_label_set_text(GTK_LABEL(fifo_label.mem_label.mem_block_3), (const gchar*) input);
             gtk_label_set_text(GTK_LABEL(fifo_label.status.block_3), (const gchar*) "FREE");
         break;
 
-        case 4:
+        case 3:
             gtk_label_set_text(GTK_LABEL(fifo_label.mem_label.mem_block_4), (const gchar*) input);
             gtk_label_set_text(GTK_LABEL(fifo_label.status.block_4), (const gchar*) "FREE");
         break;
 
-        case 5:
+        case 4:
             gtk_label_set_text(GTK_LABEL(fifo_label.mem_label.mem_block_5), (const gchar*) input);
             gtk_label_set_text(GTK_LABEL(fifo_label.status.block_5), (const gchar*) "FREE");
         break;
     }
+
+    if (fifo_label.mem_label.counter == 4)
+    {
+        gtk_widget_set_sensitive(mem_entry, FALSE);
+    }
+    fifo_label.mem_label.counter++;
     gtk_entry_set_text(mem_entry,"");
 }
 
@@ -200,14 +238,15 @@ void fifo_start_clicked(GtkButton *start)
     char total_frag[30];
     char total_mem[30];
 
+
     //fifo algo
     for (int i = 0; i < fifo_label.job_label.counter; i++)
     {
         sprintf(status, "BUSY(J%d)", i+1);
-        for (int j = i; j < fifo_label.mem_label.counter; j++)
+        for (int j = 0; j < fifo_label.mem_label.counter; j++)
         {
-            sprintf(fragmentation, "%d", mem_size[j] - job_size[i]);
-            if ((mem_size[j] - job_size[i]) >= 0)
+            sprintf(fragmentation, "%d", fifo.mem_block[j] - fifo.job_size[i]);
+            if (fifo.is_busy[j] == FALSE && fifo.mem_block[j] >= fifo.job_size[i])
             {
                 switch (j)
                 {
@@ -236,23 +275,114 @@ void fifo_start_clicked(GtkButton *start)
                         gtk_label_set_text(GTK_LABEL(fifo_label.internal_fragment.block_5), (const gchar*) fragmentation);
                     break;
                 }
+                fifo.is_busy[j] = TRUE;
                 //gets the total of fragmentation
-                total_fragmentation += (mem_size[j]-job_size[i]);      
+                total_fragmentation += (fifo.mem_block[j] - fifo.job_size[i]);
                 break;
             }
         }
-
-        //gets both the total of memory size
-        total_memory+= mem_size[i]; 
+    }
+    
+    //gets both the total of memory size
+    for (int i = 0; i < fifo_label.mem_label.counter; i++)
+    {
+        total_memory+= fifo.mem_block[i]; 
     }
     
     sprintf(total_frag, "Total Fragmentation:%d", total_fragmentation);
     sprintf(total_mem, "Total Memory:%d", total_memory);
     gtk_label_set_text(GTK_LABEL(total_fragment_label), (const gchar*) total_frag);
     gtk_label_set_text(GTK_LABEL(total_mem_label), (const gchar*) total_mem);
+    gtk_widget_set_sensitive(start, FALSE);
 }
 
 void best_fit_job_entry_activate(GtkEntry *job_entry)
+{
+     char input[30];
+    /*
+    retrieves the user input and puts them on input variable
+    */
+    sprintf(input, "Job%d:%s", best_fit_label.job_label.counter+1, gtk_entry_get_text(job_entry));
+
+    best_fit.job_size[best_fit_label.job_label.counter] = atoi(gtk_entry_get_text(job_entry));
+
+    switch (best_fit_label.job_label.counter)
+    {
+        case 0:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.job_label.job_1), (const gchar*) input);
+        break;
+        
+        case 1:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.job_label.job_2), (const gchar*) input);
+        break;
+
+        case 2:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.job_label.job_3), (const gchar*) input);
+        break;
+
+        case 3:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.job_label.job_4), (const gchar*) input);
+        break;
+
+        case 4:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.job_label.job_5), (const gchar*) input);
+        break;
+    }
+            
+    if (best_fit_label.job_label.counter == 4) 
+    {
+        gtk_widget_set_sensitive(job_entry, FALSE);
+    }
+    best_fit_label.job_label.counter++;
+    gtk_entry_set_text(job_entry,"");
+}
+
+void best_fit_mem_entry_activate(GtkEntry *mem_entry)
+{
+    char input[30];
+
+    sprintf(input, "Job%d:%s", best_fit_label.mem_label.counter+1, gtk_entry_get_text(mem_entry));
+
+    best_fit.mem_block[best_fit_label.mem_label.counter] = atoi(gtk_entry_get_text(mem_entry));
+    best_fit.is_busy[best_fit_label.mem_label.counter] = FALSE;
+
+    switch (best_fit_label.mem_label.counter)
+    {
+        case 0:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.mem_label.mem_block_1), (const gchar*) input);
+            gtk_label_set_text(GTK_LABEL(best_fit_label.status.block_1), (const gchar*) "FREE");
+        break;
+        
+        case 1:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.mem_label.mem_block_2), (const gchar*) input);
+            gtk_label_set_text(GTK_LABEL(best_fit_label.status.block_2), (const gchar*) "FREE");
+        break;
+
+        case 2:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.mem_label.mem_block_3), (const gchar*) input);
+            gtk_label_set_text(GTK_LABEL(best_fit_label.status.block_3), (const gchar*) "FREE");
+        break;
+
+        case 3:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.mem_label.mem_block_4), (const gchar*) input);
+            gtk_label_set_text(GTK_LABEL(best_fit_label.status.block_4), (const gchar*) "FREE");
+        break;
+
+        case 4:
+            gtk_label_set_text(GTK_LABEL(best_fit_label.mem_label.mem_block_5), (const gchar*) input);
+            gtk_label_set_text(GTK_LABEL(best_fit_label.status.block_5), (const gchar*) "FREE");
+        break;
+    }
+
+    if (best_fit_label.mem_label.counter == 4)
+    {
+        gtk_widget_set_sensitive(mem_entry, FALSE);
+    }
+    best_fit_label.mem_label.counter++;
+    gtk_entry_set_text(mem_entry,"");
+}
+
+void best_fit_start_clicked(GtkButton *start)
 {
 
 }

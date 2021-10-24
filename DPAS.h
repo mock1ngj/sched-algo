@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <stdbool.h>
 /*declares all the necessary objects and stores 
 them in a struct for readability and easy access
 on main
@@ -74,7 +75,7 @@ typedef struct
 
 typedef struct
 {
-    int job_size;
-    int mem_block;
-    char status [10];
+    int job_size[5];
+    int mem_block[5];
+    bool is_busy[5];
 }data;
