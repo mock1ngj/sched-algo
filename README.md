@@ -1,5 +1,5 @@
 # sched-algo
-
+GUI made in Glade
 
 Leader: 
 Dimarucot, Angelo Vince S.
