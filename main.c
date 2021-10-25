@@ -288,7 +288,7 @@ void best_fit_job_entry_activate(GtkEntry *job_entry)
 
     gtk_label_set_text(GTK_LABEL(best_job_display[best_fit.job_counter]), (const gchar*) input);
 
-
+    //turns off the widget if it reaches the final array
     if (best_fit.job_counter == 4) 
     {
         gtk_widget_set_sensitive(job_entry, FALSE);
@@ -339,6 +339,7 @@ void best_fit_clear_clicked(GtkButton *clear)
         best_fit.mem_block[i] = NULL;
     }
     
+    //turns on the widgets
     gtk_widget_set_sensitive(best_fit_gui.start, TRUE);
     gtk_widget_set_sensitive(best_fit_gui.job_entry, TRUE);
     gtk_widget_set_sensitive(best_fit_gui.mem_entry, TRUE);
